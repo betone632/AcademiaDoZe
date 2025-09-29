@@ -9,7 +9,8 @@
 
     <FlyoutItem Title="Dashboard">
         <FlyoutItem.Icon>
-            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe871;" />
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe871;"
+                             Color="{AppThemeBinding Light=Black, Dark=White}" />
             <!-- dashboard -->
         </FlyoutItem.Icon>
         <ShellContent 
@@ -19,7 +20,8 @@
 
     <FlyoutItem Title="Logradouros">
         <FlyoutItem.Icon>
-            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe7f1;" />
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe7f1;" 
+                             Color="{AppThemeBinding Light=Black, Dark=White}" />
             <!-- location_city -->
         </FlyoutItem.Icon>
         <ShellContent 
@@ -27,9 +29,21 @@
             Route="logradouros" />
     </FlyoutItem>
 
+    <FlyoutItem Title="Colaboradores">
+        <FlyoutItem.Icon>
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xea67;" 
+                             Color="{AppThemeBinding Light=Black, Dark=White}" />
+            <!-- group -->
+        </FlyoutItem.Icon>
+        <ShellContent 
+            ContentTemplate="{DataTemplate views:ColaboradorListPage}" 
+            Route="colaboradores" />
+    </FlyoutItem>
+
     <FlyoutItem Title="Configurações">
         <FlyoutItem.Icon>
-            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8b8;" />
+            <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8b8;" 
+                             Color="{AppThemeBinding Light=Black, Dark=White}" />
             <!-- settings -->
         </FlyoutItem.Icon>
         <ShellContent 
