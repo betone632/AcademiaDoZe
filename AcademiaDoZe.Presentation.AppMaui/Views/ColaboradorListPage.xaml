@@ -129,7 +129,8 @@
                        Text="{Binding SearchText}"
                        Placeholder="Digite o valor..."
                        HeightRequest="40"
-                       VerticalOptions="Center" />
+                       VerticalOptions="Center"
+                       TextChanged="OnSearchDebounceTextChanged"/>
                 <Button Grid.Column="4"
                         Text=""
                         Style="{StaticResource ButtonPrimary}"
