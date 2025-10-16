@@ -76,43 +76,47 @@ namespace AcademiaDoZe.Presentation.AppMaui.ViewModels
         {
             if (IsBusy)
                 return;
+
             try
             {
                 IsBusy = true;
-                // Limpa a lista atual
 
+                // Limpa a lista atual na thread principal
                 await MainThread.InvokeOnMainThreadAsync(() =>
-
                 {
                     Alunos.Clear();
                 });
-                IEnumerable<AlunoDTO> resultados = Enumerable.Empty<AlunoDTO>();
-                // Busca os alunos de acordo com o filtro
-                if (string.IsNullOrWhiteSpace(SearchText))
 
+                IEnumerable<AlunoDTO> resultados = Enumerable.Empty<AlunoDTO>();
+
+                // Busca os alunos de acordo com o filtro selecionado
+                if (string.IsNullOrWhiteSpace(SearchText))
                 {
                     resultados = await _alunoService.ObterTodosAsync() ?? Enumerable.Empty<AlunoDTO>();
                 }
                 else if (SelectedFilterType == "Id" && int.TryParse(SearchText, out int id))
                 {
                     var aluno = await _alunoService.ObterPorIdAsync(id);
-
                     if (aluno != null)
-
                         resultados = new[] { aluno };
                 }
                 else if (SelectedFilterType == "CPF")
                 {
-                    var aluno = await _alunoService.ObterPorCpfAsync(SearchText);
+                    // Remove pontos e traços do texto digitado
+                    string cpfBusca = new string(SearchText.Where(char.IsDigit).ToArray());
 
-                    if (aluno != null)
+                    // Busca todos e filtra localmente (garante compatibilidade com CPFs formatados)
+                    var alunos = await _alunoService.ObterTodosAsync() ?? Enumerable.Empty<AlunoDTO>();
 
-                        resultados = new[] { aluno };
+                    resultados = alunos.Where(a =>
+                    {
+                        string cpfAluno = new string(a.Cpf?.Where(char.IsDigit).ToArray() ?? Array.Empty<char>());
+                        return cpfAluno.Contains(cpfBusca);
+                    }).ToList();
                 }
+
                 // Atualiza a coleção na thread principal
-
                 await MainThread.InvokeOnMainThreadAsync(() =>
-
                 {
                     foreach (var item in resultados)
                     {
@@ -130,6 +134,7 @@ namespace AcademiaDoZe.Presentation.AppMaui.ViewModels
                 IsBusy = false;
             }
         }
+
 
         [RelayCommand]
         private async Task LoadAlunosAsync()

@@ -50,4 +50,32 @@ public partial class AlunoListPage : ContentPage
             await DisplayAlert("Erro", $"Erro ao excluir aluno: {ex.Message}", "OK");
         }
     }
+
+    private CancellationTokenSource? _searchCts;
+
+    private async void OnSearchDebounceTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        try
+        {
+            _searchCts?.Cancel();
+            _searchCts = new CancellationTokenSource();
+            var token = _searchCts.Token;
+
+            // Espera curta (300ms)
+            await Task.Delay(300, token);
+
+            if (token.IsCancellationRequested)
+                return;
+
+            if (BindingContext is AlunoListViewModel vm)
+            {
+                await vm.SearchAlunosCommand.ExecuteAsync(null);
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            // ignorar cancelamentos (usuário ainda digitando)
+        }
+    }
+
 }

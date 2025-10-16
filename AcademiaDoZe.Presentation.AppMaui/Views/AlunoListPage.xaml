@@ -91,19 +91,45 @@ Utilizamos OnIdiom para ajustar propriedades conforme o tipo de dispositivo: Pho
     </ContentPage.Resources>
     <!-- estrutura principal da pagina -->
     <Grid RowDefinitions="Auto,*">
-        <!-- Search Bar -->
-        <Border Grid.Row="0" Style="{StaticResource CardBorder}" Margin="15,10">
-            <Grid ColumnDefinitions="Auto,10,*,10,Auto" VerticalOptions="Center">
-                <Picker Grid.Column="0" Title="" ItemsSource="{Binding FilterTypes}" SelectedItem="{Binding SelectedFilterType}" WidthRequest="110" HorizontalOptions="Start" HeightRequest="40"
-VerticalOptions="Center"/>
-                <Entry Grid.Column="2" Text="{Binding SearchText}" Placeholder="Digite o valor..." HeightRequest="40" VerticalOptions="Center" />
-                <Button Grid.Column="4" Text="" Style="{StaticResource ButtonPrimary}" FontSize="14" WidthRequest="80" HeightRequest="40" Command="{Binding SearchAlunosCommand}">
-                    <Button.ImageSource>
-                        <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8b6;" />
-                    </Button.ImageSource>
-                </Button>
-            </Grid>
-        </Border>
+		<!-- Search Bar -->
+		<Border Grid.Row="0"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1"
+                Margin="15,10">
+			<Border.Background>
+				<LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+					<GradientStop Color="#6A82FB" Offset="0.0" />
+					<GradientStop Color="#FC5C7D" Offset="1.0" />
+				</LinearGradientBrush>
+			</Border.Background>
+			<Grid ColumnDefinitions="Auto,10,*,10,Auto" VerticalOptions="Center" Padding="8">
+				<Picker Grid.Column="0"
+                        Title=""
+                        ItemsSource="{Binding FilterTypes}"
+                        SelectedItem="{Binding SelectedFilterType}"
+                        WidthRequest="110"
+                        HorizontalOptions="Start"
+                        HeightRequest="40"
+                        VerticalOptions="Center"/>
+				<Entry Grid.Column="2"
+                       Text="{Binding SearchText}"
+                       Placeholder="Digite o valor..."
+                       HeightRequest="40"
+                       VerticalOptions="Center"
+                       TextChanged="OnSearchDebounceTextChanged"/>
+				<Button Grid.Column="4"
+                        Text=""
+                        Style="{StaticResource ButtonPrimary}"
+                        FontSize="14"
+                        WidthRequest="80"
+                        HeightRequest="40"
+                        Command="{Binding SearchAlunosCommand}">
+					<Button.ImageSource>
+						<FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8b6;" />
+					</Button.ImageSource>
+				</Button>
+			</Grid>
+		</Border>
         <!-- lista/grade + FAB -->
         <!-- ajuste conforme tipo: Phone, Tablet, Desktop, TV, Watch e Default -->
         <!-- exibe o template criado acima: AlunoItemTemplate -->
